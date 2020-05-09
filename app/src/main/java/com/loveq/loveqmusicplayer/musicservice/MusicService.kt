@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Build.VERSION.SDK_INT
 import android.os.IBinder
 import android.widget.RemoteViews
+import androidx.core.app.NotificationCompat
 import com.loveq.loveqmusicplayer.MainActivity
 import com.loveq.loveqmusicplayer.R
 import com.loveq.playerlib.bean.BaseMusicItem
@@ -48,6 +49,7 @@ class MusicService : Service() {
         val intent = Intent(applicationContext, MainActivity::class.java)
 
         val contentIntent = PendingIntent.getActivity(this, 0, intent, 0)
+
         if (SDK_INT >= Build.VERSION_CODES.O) {
             val notificationManager =
                 getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -56,10 +58,34 @@ class MusicService : Service() {
 
             notificationManager.createNotificationChannelGroup(playGroup)
 
+            val playChannel = NotificationChannel(
+                CHANNEL_ID,
+                "播放时的通知栏",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            playChannel.group = GROUP_ID
 
-//            val playChannel = NotificationChannel(CHANNEL_ID,"播放时的通知栏",)
-
+            notificationManager.createNotificationChannel(playChannel)
         }
+
+        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_player)
+            .setContentIntent(contentIntent)
+            .setOnlyAlertOnce(true)
+            .setContentTitle(title)
+            .build()
+
+        notification.contentView = simpleContentView
+        notification.bigContentView = expandedView
+
+
+        setListeners(simpleContentView)
+        setListeners(expandedView)
+
+
+    }
+
+    private fun setListeners(simpleContentView: RemoteViews) {
 
 
     }
