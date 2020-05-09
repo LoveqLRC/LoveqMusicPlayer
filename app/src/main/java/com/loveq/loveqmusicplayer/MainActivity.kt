@@ -17,18 +17,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        showStandardNotification.setOnClickListener {
-            val map = mutableMapOf<String, ProgramFilter>()
-            val filter = ProgramFilter(1, 0, 2020)
-            map[FILTER_KEY] = filter
-            val toJson = Gson().toJson(map)
-            NetWorkManager.service.getProgramList(toJson)
-                .compose(SchedulerUtils.ioToMain())
-                .subscribe({
-
-                }, {
-
-                })
-        }
+//        showStandardNotification.setOnClickListener {
+//            val map = mutableMapOf<String, ProgramFilter>()
+//            val filter = ProgramFilter(1, 0, 2020)
+//            map[FILTER_KEY] = filter
+//            val toJson = Gson().toJson(map)
+//            NetWorkManager.service.getProgramList(toJson)
+//                .compose(SchedulerUtils.ioToMain())
+//                .subscribe({
+//
+//                }, {
+//
+//                })
+//        }
     }
 }

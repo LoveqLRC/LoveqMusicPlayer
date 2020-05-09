@@ -5,4 +5,5 @@
     <dimen name="space_miro">4dp</dimen>
     <dimen name="space_normal">8dp</dimen>
     <dimen name="title">14sp</dimen>
+    <dimen name="playback_controls_albumart_size">64dp</dimen>
 </resources>
