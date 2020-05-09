@@ -1,24 +1,25 @@
 package com.loveq.loveqmusicplayer.musicservice
 
-import android.app.*
-import android.content.Context
+import android.app.Notification
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Intent
 import android.os.Build
-import android.os.Build.VERSION.SDK_INT
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.loveq.loveqmusicplayer.MainActivity
 import com.loveq.loveqmusicplayer.R
+import com.loveq.loveqmusicplayer.notification.GlobalNotificationBuilder
+import com.loveq.loveqmusicplayer.notification.NotificationUtils
+import com.loveq.loveqmusicplayer.utils.CHANNEL_ID
 import com.loveq.playerlib.bean.BaseMusicItem
 
 /**
  * Created by Rc on 2020/5/8
  */
 class MusicService : Service() {
-
-    val GROUP_ID = "GROUP_ID"
-    val CHANNEL_ID = "CHANNEL_ID"
 
     override fun onBind(intent: Intent?): IBinder? {
 
@@ -28,7 +29,7 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-//        createNotification()
+        createNotification(BaseMusicItem<String>("地址", "标题", "album标题"))
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -37,50 +38,43 @@ class MusicService : Service() {
         val title = baseMusicItem.musicTitle
         val albumTitle = baseMusicItem.albumTitle
 
-        val simpleContentView = RemoteViews(
+        NotificationUtils.createNotificationChannel()
+
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val notifyPendingIntent =
+            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        val notificationCompatBuilder = NotificationCompat.Builder(
+            applicationContext, CHANNEL_ID
+        )
+        GlobalNotificationBuilder.setNotificationCompatBuilderInstance(notificationCompatBuilder)
+
+
+        val contentView = RemoteViews(
             application.packageName,
             R.layout.notify_player_small
         )
-        val expandedView = RemoteViews(
+
+
+        val bigContentView = RemoteViews(
             application.packageName,
             R.layout.notify_player_big
         )
 
-        val intent = Intent(applicationContext, MainActivity::class.java)
 
-        val contentIntent = PendingIntent.getActivity(this, 0, intent, 0)
-
-        if (SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            val playGroup = NotificationChannelGroup(GROUP_ID, "播放")
-
-            notificationManager.createNotificationChannelGroup(playGroup)
-
-            val playChannel = NotificationChannel(
-                CHANNEL_ID,
-                "播放时的通知栏",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            playChannel.group = GROUP_ID
-
-            notificationManager.createNotificationChannel(playChannel)
-        }
-
-        val notification = NotificationCompat.Builder(applicationContext, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_player)
-            .setContentIntent(contentIntent)
-            .setOnlyAlertOnce(true)
-            .setContentTitle(title)
-            .build()
-
-        notification.contentView = simpleContentView
-        notification.bigContentView = expandedView
+        val notification =
+            notificationCompatBuilder
+                .setCustomContentView(contentView)
+                .setCustomBigContentView(bigContentView)
+                .setContentIntent(notifyPendingIntent)
+                .setContentTitle(title)
+                .setSmallIcon(R.drawable.ic_player)
+                .build()
 
 
-        setListeners(simpleContentView)
-        setListeners(expandedView)
+        NotificationManagerCompat.from(applicationContext).notify(88, notification)
 
 
     }

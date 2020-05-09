@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="normal_notification_height">64dp</dimen>
+    <dimen name="big_notification_height">256dp</dimen>
+    <dimen name="space_miro">4dp</dimen>
+    <dimen name="space_normal">8dp</dimen>
+    <dimen name="title">14sp</dimen>
+</resources>

@@ -1,8 +1,9 @@
 package com.loveq.loveqmusicplayer
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.loveq.playerlib.helper.MediaPlayerHelper
+import androidx.appcompat.app.AppCompatActivity
+import com.loveq.loveqmusicplayer.musicservice.MusicService
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -11,8 +12,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        play.setOnClickListener {
-            MediaPlayerHelper.getInstance().play("http://dl.loveq.cn/program/2020/2020.05.02.mp3")
+        showStandardNotification.setOnClickListener {
+            val intent = Intent(this, MusicService::class.java)
+            startService(intent)
         }
     }
 }
