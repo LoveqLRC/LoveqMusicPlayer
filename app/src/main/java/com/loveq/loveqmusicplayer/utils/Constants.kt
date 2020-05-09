@@ -7,3 +7,5 @@ package com.loveq.loveqmusicplayer.utils
 val CHANNEL_ID = "LoveQChannelId"
 val CHANNEL_NAME = "一些事一些情"
 val CHANNEL_DESCRIPTION = "一些事一些情"
+
+const val BASE_URL = "https://loveq.cn/"
