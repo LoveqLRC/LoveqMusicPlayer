@@ -29,14 +29,13 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        createNotification(BaseMusicItem<String>("地址", "标题", "album标题"))
+        createNotification(BaseMusicItem("地址", "标题", "album标题"))
         return super.onStartCommand(intent, flags, startId)
     }
 
 
-    private fun createNotification(baseMusicItem: BaseMusicItem<*>) {
+    private fun createNotification(baseMusicItem: BaseMusicItem) {
         val title = baseMusicItem.musicTitle
-        val albumTitle = baseMusicItem.albumTitle
 
         NotificationUtils.createNotificationChannel()
 

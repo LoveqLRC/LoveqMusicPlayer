@@ -4,6 +4,10 @@
     <dimen name="big_notification_height">256dp</dimen>
     <dimen name="space_miro">4dp</dimen>
     <dimen name="space_normal">8dp</dimen>
+    <dimen name="space_large">16dp</dimen>
     <dimen name="title">14sp</dimen>
     <dimen name="playback_controls_albumart_size">64dp</dimen>
+    <dimen name="touch_raise">6dp</dimen>
+    <dimen name="z_card">2dp</dimen>
+    <dimen name="media_item_height">73dp</dimen>
 </resources>

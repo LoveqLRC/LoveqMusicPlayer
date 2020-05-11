@@ -8,13 +8,13 @@ import kotlin.collections.ArrayList
  */
 object LoveqUtils {
 
-    fun getProgramRange(): ArrayList<Int> {
+    fun getProgramRange(): ArrayList<String> {
 
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
-        val programYearList = ArrayList<Int>()
+        val programYearList = ArrayList<String>()
         for (year in currentYear downTo 2003) {
-            programYearList.add(year)
+            programYearList.add(year.toString())
         }
         return programYearList
     }

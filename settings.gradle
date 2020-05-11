@@ -1,3 +1,4 @@
 rootProject.name='LoveqMusicPlayer'
 include ':app'
 include ':playerlib'
+include ':commonlib'
