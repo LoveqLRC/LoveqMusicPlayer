@@ -11,27 +11,16 @@ import com.loveq.playerlib.bean.BaseMusicItem
 import kotlinx.android.synthetic.main.item_media_list.view.*
 
 /**
- * Created by Rc on 2020/5/11
+ * Created by Rc on 2020/5/12
  */
-
 class MediaBrowserAdapter : RecyclerView.Adapter<MediaBrowserAdapter.ViewHolder>() {
-    val dataList = ArrayList<BaseMusicItem>()
+
+    val musicList = ArrayList<BaseMusicItem>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val description: TextView = view.description
-        val title: TextView = view.title
-        val imageView: ImageView = view.play_eq
-    }
-
-    override fun getItemCount(): Int {
-        return 10
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val baseMusicItem = dataList[position]
-        holder.description.text = baseMusicItem.musicDescription
-        holder.title.text = baseMusicItem.musicTitle
-
+        val musicName: TextView = view.musicName
+        val musicArtist: TextView = view.musicArtist
+        val playStatus: ImageView = view.play_status
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -40,10 +29,21 @@ class MediaBrowserAdapter : RecyclerView.Adapter<MediaBrowserAdapter.ViewHolder>
         )
     }
 
-    fun updateList(mutableList: MutableList<BaseMusicItem>) {
-        dataList.addAll(mutableList)
-        notifyDataSetChanged()
+    override fun getItemCount(): Int {
+        return musicList.size
     }
 
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val musicItem = musicList[position]
+        if (musicItem.albumId == ROOT_MEDIA_ID) {
+            holder.playStatus.visibility = View.GONE
+        }
+        holder.musicName.text = musicItem.musicName
+        holder.musicArtist.text = musicItem.musicArtist
+    }
 
+    fun updateList(newDataList: ArrayList<BaseMusicItem>) {
+        musicList.addAll(newDataList)
+        notifyItemRangeInserted(musicList.size, newDataList.size)
+    }
 }

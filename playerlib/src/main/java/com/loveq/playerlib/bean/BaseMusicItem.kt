@@ -4,13 +4,11 @@ package com.loveq.playerlib.bean
  * Created by Rc on 2020/3/16
  */
 open class BaseMusicItem(
-    var musicUrl: String,
-    var musicTitle: String,
+    var musicUrl: String? = null,
+    var musicName: String,
     var albumId: String
 ) {
-
-    var musicDescription: String? = null
-    var artist: String? = null
+    var musicArtist: String? = null
 
 }
 

@@ -1,10 +1,8 @@
 package com.loveq.loveqmusicplayer.musicservice
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -35,7 +33,7 @@ class MusicService : Service() {
 
 
     private fun createNotification(baseMusicItem: BaseMusicItem) {
-        val title = baseMusicItem.musicTitle
+        val title = baseMusicItem.musicName
 
         NotificationUtils.createNotificationChannel()
 

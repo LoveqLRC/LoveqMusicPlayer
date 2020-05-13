@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.include_toolbar.*
 
 class MainActivity : AppCompatActivity(), MediaFragmentListener {
 
-    private val browserTree = mutableMapOf<String, MutableList<BaseMusicItem>>()
+    private val browserTree = mutableMapOf<String, ArrayList<BaseMusicItem>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), MediaFragmentListener {
         toolbar.title = title
     }
 
-    override fun getProgramList(): MutableMap<String, MutableList<BaseMusicItem>> = browserTree
+    override fun getProgramList(): MutableMap<String, ArrayList<BaseMusicItem>> = browserTree
 
 
 }

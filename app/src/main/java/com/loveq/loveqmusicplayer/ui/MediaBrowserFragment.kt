@@ -35,7 +35,7 @@ class MediaBrowserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.adapter = MediaBrowserAdapter()
+        list.adapter = mAdapter
         getData()
     }
 
@@ -43,11 +43,11 @@ class MediaBrowserFragment : Fragment() {
         val mediaId = getMediaId()
         val programList = mMediaFragmentListener.getProgramList()
         if (ROOT_MEDIA_ID == mediaId) {
-            val mutableList = programList[mediaId] ?: mutableListOf()
+            val mutableList = programList[mediaId] ?: ArrayList()
             if (mutableList.isEmpty()) {
                 LoveqUtils.getProgramRange().forEach {
                     val baseMusicItem = BaseMusicItem(null, it, ROOT_MEDIA_ID)
-
+                    baseMusicItem.musicArtist = it
                     mutableList.add(baseMusicItem)
                 }
                 programList[mediaId] = mutableList
@@ -81,7 +81,7 @@ class MediaBrowserFragment : Fragment() {
 interface MediaFragmentListener {
     fun setToolbarTitle(title: CharSequence?)
 
-    fun getProgramList(): MutableMap<String, MutableList<BaseMusicItem>>
+    fun getProgramList(): MutableMap<String, ArrayList<BaseMusicItem>>
 }
 
 const val ROOT_MEDIA_KEY = "ROOT_MEDIA_KEY"
