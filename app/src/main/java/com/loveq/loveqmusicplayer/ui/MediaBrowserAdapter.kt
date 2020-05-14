@@ -7,19 +7,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.loveq.loveqmusicplayer.R
+import com.loveq.loveqmusicplayer.bean.LoveqMusicItem
 import com.loveq.playerlib.bean.BaseMusicItem
 import kotlinx.android.synthetic.main.item_media_list.view.*
 
 /**
  * Created by Rc on 2020/5/12
  */
-class MediaBrowserAdapter : RecyclerView.Adapter<MediaBrowserAdapter.ViewHolder>() {
+class MediaBrowserAdapter(var listener: (LoveqMusicItem, Int) -> Unit) :
+    RecyclerView.Adapter<MediaBrowserAdapter.ViewHolder>() {
 
-    val musicList = ArrayList<BaseMusicItem>()
+    val musicList = ArrayList<LoveqMusicItem>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val musicName: TextView = view.musicName
-        val musicArtist: TextView = view.musicArtist
+        val musicDownCount: TextView = view.musicDownCount
         val playStatus: ImageView = view.play_status
     }
 
@@ -37,12 +39,25 @@ class MediaBrowserAdapter : RecyclerView.Adapter<MediaBrowserAdapter.ViewHolder>
         val musicItem = musicList[position]
         if (musicItem.albumId == ROOT_MEDIA_ID) {
             holder.playStatus.visibility = View.GONE
+            holder.musicDownCount.visibility = View.GONE
+            holder.musicName.text =
+                holder.itemView.resources.getString(R.string.program_year, musicItem.musicName)
+        } else {
+            holder.musicName.text = musicItem.musicName
+            holder.musicDownCount.text =
+                holder.itemView.resources.getString(
+                    R.string.program_down_load_count,
+                    musicItem.downloadCount
+                )
         }
-        holder.musicName.text = musicItem.musicName
-        holder.musicArtist.text = musicItem.musicArtist
+
+
+        holder.itemView.setOnClickListener {
+            listener(musicItem, holder.adapterPosition)
+        }
     }
 
-    fun updateList(newDataList: ArrayList<BaseMusicItem>) {
+    fun updateList(newDataList: ArrayList<LoveqMusicItem>) {
         musicList.addAll(newDataList)
         notifyItemRangeInserted(musicList.size, newDataList.size)
     }

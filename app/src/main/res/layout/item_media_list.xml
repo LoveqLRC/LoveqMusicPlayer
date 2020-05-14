@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/media_item_height"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_large"
     android:elevation="@dimen/z_card"
     android:foreground="@drawable/mid_grey_ripple"
     android:stateListAnimator="@animator/raise">
@@ -13,17 +14,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="@dimen/space_large"
+        android:layout_marginRight="@dimen/space_normal"
         android:src="@drawable/ic_play_arrow_black_36dp"
         android:tint="@color/media_item_icon_not_playing"
         android:tintMode="src_in" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@id/play_status"
-        android:layout_marginLeft="@dimen/space_normal"
         android:gravity="center_vertical"
         android:orientation="vertical">
 
@@ -38,7 +38,8 @@
             tools:text="The Best Music EVAH1111 FOREVER YOUNG I'M AWESOME!!!11^H^H" />
 
         <TextView
-            android:id="@+id/musicArtist"
+            tools:visibility="gone"
+            android:id="@+id/musicDownCount"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"

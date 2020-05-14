@@ -15,7 +15,7 @@ class LoveqProgram {
         var file_name: String,//文件名
         var attach_file: String,//直播路径
         var down_url: String,//下载路径
-        var download_num: String,//下载数量
+        var download_num: Int,//下载数量
         var file_txt: String//当期节目 圣诞节战场上的一个小故事
     )
 

@@ -6,9 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.gson.Gson
 import com.loveq.loveqmusicplayer.R
+import com.loveq.loveqmusicplayer.bean.FILTER_KEY
+import com.loveq.loveqmusicplayer.bean.LoveqMusicItem
+import com.loveq.loveqmusicplayer.bean.ProgramFilter
+import com.loveq.loveqmusicplayer.net.NetWorkManager
+import com.loveq.loveqmusicplayer.net.SchedulerUtils
 import com.loveq.loveqmusicplayer.utils.LoveqUtils
-import com.loveq.playerlib.bean.BaseMusicItem
+import com.loveq.loveqmusicplayer.utils.toMusicItem
+import io.reactivex.Observable
 import kotlinx.android.synthetic.main.fragment_program_list.*
 
 /**
@@ -18,7 +25,9 @@ class MediaBrowserFragment : Fragment() {
 
     lateinit var mMediaFragmentListener: MediaFragmentListener
 
-    var mAdapter = MediaBrowserAdapter()
+    var mAdapter = MediaBrowserAdapter { item, position ->
+        mMediaFragmentListener.onMediaItemSelected(item, position)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,13 +55,38 @@ class MediaBrowserFragment : Fragment() {
             val mutableList = programList[mediaId] ?: ArrayList()
             if (mutableList.isEmpty()) {
                 LoveqUtils.getProgramRange().forEach {
-                    val baseMusicItem = BaseMusicItem(null, it, ROOT_MEDIA_ID)
-                    baseMusicItem.musicArtist = it
-                    mutableList.add(baseMusicItem)
+                    val musicItem = LoveqMusicItem("", it).apply {
+                        albumId = ROOT_MEDIA_ID
+                        subAlbumId = it
+                    }
+                    mutableList.add(musicItem)
                 }
                 programList[mediaId] = mutableList
             }
             mAdapter.updateList(mutableList)
+        } else {
+            val mutableList = programList[mediaId] ?: ArrayList()
+            if (mutableList.isEmpty()) {
+                val map = mutableMapOf<String, ProgramFilter>()
+                val filter = ProgramFilter(1, 0, mediaId)
+                map[FILTER_KEY] = filter
+                val json = Gson().toJson(map)
+                val disposable = NetWorkManager.service.getProgramList(json)
+                    .flatMap { Observable.fromIterable(it.data) }
+                    .map { it.toMusicItem(mediaId) }
+                    .compose(SchedulerUtils.ioToMain())
+                    .subscribe(
+                        {
+                            mutableList.add(it)
+                        }, {
+
+                        }, {
+                            programList[mediaId] = mutableList
+                            mAdapter.updateList(mutableList)
+                        })
+            } else {
+                mAdapter.updateList(mutableList)
+            }
         }
 
     }
@@ -81,7 +115,9 @@ class MediaBrowserFragment : Fragment() {
 interface MediaFragmentListener {
     fun setToolbarTitle(title: CharSequence?)
 
-    fun getProgramList(): MutableMap<String, ArrayList<BaseMusicItem>>
+    fun getProgramList(): MutableMap<String, ArrayList<LoveqMusicItem>>
+
+    fun /**/onMediaItemSelected(item: LoveqMusicItem, position: Int)
 }
 
 const val ROOT_MEDIA_KEY = "ROOT_MEDIA_KEY"

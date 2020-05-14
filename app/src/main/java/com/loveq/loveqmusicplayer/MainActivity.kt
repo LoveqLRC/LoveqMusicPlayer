@@ -1,25 +1,18 @@
 package com.loveq.loveqmusicplayer
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.google.gson.Gson
-import com.loveq.loveqmusicplayer.bean.FILTER_KEY
-import com.loveq.loveqmusicplayer.bean.ProgramFilter
-import com.loveq.loveqmusicplayer.musicservice.MusicService
-import com.loveq.loveqmusicplayer.net.NetWorkManager
-import com.loveq.loveqmusicplayer.net.SchedulerUtils
+import com.loveq.loveqmusicplayer.bean.LoveqMusicItem
 import com.loveq.loveqmusicplayer.ui.MediaBrowserFragment
 import com.loveq.loveqmusicplayer.ui.MediaFragmentListener
 import com.loveq.loveqmusicplayer.ui.ROOT_MEDIA_ID
 import com.loveq.playerlib.bean.BaseMusicItem
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.include_toolbar.*
 
 class MainActivity : AppCompatActivity(), MediaFragmentListener {
 
-    private val browserTree = mutableMapOf<String, ArrayList<BaseMusicItem>>()
+    private val browserTree = mutableMapOf<String, ArrayList<LoveqMusicItem>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +54,14 @@ class MainActivity : AppCompatActivity(), MediaFragmentListener {
         toolbar.title = title
     }
 
-    override fun getProgramList(): MutableMap<String, ArrayList<BaseMusicItem>> = browserTree
+    override fun getProgramList(): MutableMap<String, ArrayList<LoveqMusicItem>> = browserTree
+
+    override fun onMediaItemSelected(
+        item: LoveqMusicItem,
+        position: Int
+    ) {
+        navigateToBrowser(item.subAlbumId)
+    }
 
 
 }

@@ -27,7 +27,7 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        createNotification(BaseMusicItem("地址", "标题", "album标题"))
+        createNotification(BaseMusicItem("地址", "标题"))
         return super.onStartCommand(intent, flags, startId)
     }
 
