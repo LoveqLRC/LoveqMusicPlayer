@@ -1,10 +1,8 @@
 package com.loveq.loveqmusicplayer.musicservice
 
-import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
-import android.os.Build
 import android.os.IBinder
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
@@ -29,14 +27,13 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        createNotification(BaseMusicItem<String>("地址", "标题", "album标题"))
+        createNotification(BaseMusicItem("地址", "标题"))
         return super.onStartCommand(intent, flags, startId)
     }
 
 
-    private fun createNotification(baseMusicItem: BaseMusicItem<*>) {
-        val title = baseMusicItem.musicTitle
-        val albumTitle = baseMusicItem.albumTitle
+    private fun createNotification(baseMusicItem: BaseMusicItem) {
+        val title = baseMusicItem.musicName
 
         NotificationUtils.createNotificationChannel()
 

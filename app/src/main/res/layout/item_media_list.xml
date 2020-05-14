@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/space_large"
+    android:elevation="@dimen/z_card"
+    android:foreground="@drawable/mid_grey_ripple"
+    android:stateListAnimator="@animator/raise">
+
+    <ImageView
+        android:id="@+id/play_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/space_normal"
+        android:src="@drawable/ic_play_arrow_black_36dp"
+        android:tint="@color/media_item_icon_not_playing"
+        android:tintMode="src_in" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/play_status"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/musicName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="?android:attr/textColorPrimary"
+            tools:text="The Best Music EVAH1111 FOREVER YOUNG I'M AWESOME!!!11^H^H" />
+
+        <TextView
+            tools:visibility="gone"
+            android:id="@+id/musicDownCount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="?android:attr/textColorSecondary"
+            tools:text="John Doe, his brothers, his sisters, his pets and his more than amazing band" />
+
+    </LinearLayout>
+
+</RelativeLayout>

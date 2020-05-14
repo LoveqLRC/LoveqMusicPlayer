@@ -22,12 +22,12 @@ class MediaController private constructor() {
 
     fun playMusicItemByAlbumPosition(position: Int) {
         val musicItem = getMusicItemByAlbumPosition(position)
-        if (musicItem != null) {
-            MediaPlayerHelper.getInstance().play(musicItem.musicUrl)
+        if (musicItem?.musicUrl != null) {
+            MediaPlayerHelper.getInstance().play(musicItem.musicUrl!!)
         }
     }
 
-    private fun getMusicItemByAlbumPosition(position: Int): BaseMusicItem<*>? {
+    private fun getMusicItemByAlbumPosition(position: Int): BaseMusicItem? {
         if (TextUtils.isEmpty(currentPlayingAlbumId)) {
             return null
         }

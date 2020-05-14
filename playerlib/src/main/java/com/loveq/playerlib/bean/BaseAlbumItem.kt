@@ -8,7 +8,7 @@ class BaseAlbumItem<T, S> {
 
     var albumTitle: String? = null
 
-    var musicList: ArrayList<BaseMusicItem<T>>? = null
+    var musicList: ArrayList<BaseMusicItem>? = null
 
     var albumId: String? = null
 
